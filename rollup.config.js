@@ -1,61 +1,51 @@
-import svelte from "rollup-plugin-svelte";
-import commonjs from "@rollup/plugin-commonjs";
-import livereload from "rollup-plugin-livereload";
-import resolve from "@rollup/plugin-node-resolve";
-import typescript from "@rollup/plugin-typescript";
-import { terser } from "rollup-plugin-terser";
-import serve from "rollup-plugin-serve";
+import svelte from 'rollup-plugin-svelte';
+import commonjs from '@rollup/plugin-commonjs';
+import livereload from 'rollup-plugin-livereload';
+import resolve from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
+import { terser } from 'rollup-plugin-terser';
+import serve from 'rollup-plugin-serve';
 
-import { transform } from "rollup-plugin-insert";
-import { transFormExtra } from "./plugins/index";
+import { transform } from 'rollup-plugin-insert';
+import { transFormExtra, nodeserve, testPlugin } from './plugins/index';
 
-const production = !process.env.ROLLUP_WATCH;
-const svelteoptions = require("./svelte.config");
+const production = false;
+const svelteoptions = require('./svelte.config');
 
 let regular = {
-  input: "src/main.ts",
+  input: 'src/main.ts',
   output: {
     sourcemap: true,
-    format: "iife",
-    name: "app",
-    file: "public/build/bundle.js",
+    format: 'iife',
+    name: 'app',
+    file: 'public/build/bundle.js',
   },
   plugins: [
     svelte(svelteoptions),
     commonjs(),
+    testPlugin(),
     resolve(),
-    !production && livereload("public"),
+    !production && livereload('public'),
     production && terser(),
     typescript({ sourceMap: !production }),
     transform(transFormExtra, {
-      include: ["**/tabs/example*.svelte"],
+      include: ['**/tabs/example*.svelte'],
     }),
+    terser(),
     !production &&
-    serve({
-      contentBase: "public",
-      port: 1337,
-      open: true,
-      historyApiFallback: true,
-    }),
+      serve({
+        contentBase: 'public',
+        port: 1337,
+        open: false,
+        historyApiFallback: true,
+      }),
   ],
   watch: {
     clearScreen: false,
+    chokidar: {
+      usePolling: true,
+    },
   },
 };
 
-let ssr = {
-  input: "ssr/public/index.html",
-  output: {
-    sourcemap: true,
-    format: "iife",
-    name: "app",
-    file: "ssr/public/build/bundle.js",
-    exports: "auto",
-  },
-  plugins: [
-    svelte(),
-    commonjs(),
-    resolve(),
-  ],
-};
-export default [regular, ssr];
+export default [regular];

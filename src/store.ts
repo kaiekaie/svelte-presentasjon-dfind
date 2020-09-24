@@ -3,12 +3,7 @@ import { testobject } from './data';
 
 const multipleArray = writable([Object.create(testobject), Object.create(testobject)]);
 
-const getPosts = async () => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-  let data = await res.json();
+const posts = writable<Posts[] | Posts>(null);
+const singlePost = writable<Posts>(null);
 
-  posts.set(data);
-};
-
-const posts = writable<Posts[]>(null);
-export { multipleArray, posts, getPosts };
+export { multipleArray, posts, singlePost };

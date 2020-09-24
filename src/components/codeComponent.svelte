@@ -14,6 +14,7 @@
   pre {
     padding: 10px;
     font-size: 17px;
+    background: black;
   }
   :global(.token.operator) {
     background: transparent;

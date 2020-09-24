@@ -18,8 +18,8 @@
   <input type="checkbox" bind:checked={multiple.boolean} />
   <input type="date" bind:value={multiple.date} />
   <select bind:value={selected} on:blur={() => (multiple.selected = selected)}>
-    {#each multiple.selection as selected}
-      <option value={selected}>{selected}</option>
+    {#each multiple.selection as selectionItem}
+      <option value={selectionItem}>{selectionItem}</option>
     {/each}
   </select>
 </div>

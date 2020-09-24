@@ -9,7 +9,7 @@
 </script>
 
 {#each multipleArray as multipleItem, i}
-  <div in:fly={{ x: -10, duration: 100 }} out:fly={{ x: 100, duration: 100 }}>
+  <div in:fly={{ x: -10, duration: 1000 }} out:fly={{ x: 100, duration: 1000 }}>
     <button on:click={() => dispatch('removeitem', i)}>fjern</button>
     <input bind:value={multipleItem.string1} />
     <input bind:value={multipleItem.string2} />
